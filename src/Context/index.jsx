@@ -45,6 +45,8 @@ const ShoppingCartProvider = ({ children }) => {
   // Product Detail: Show product
   const [productToShow, setProductToShow] = useState({})
 
+  // Get produicts by title
+  const [searchByTitle, setSearchByTitle] = useState('')
   return (
     <ShoppingCartContext.Provider value={{
       count,
@@ -68,7 +70,10 @@ const ShoppingCartProvider = ({ children }) => {
       setOrder,
 
       products, 
-      setProducts
+      setProducts,
+      
+      searchByTitle,
+      setSearchByTitle
     }}>
         {children}
     </ShoppingCartContext.Provider>

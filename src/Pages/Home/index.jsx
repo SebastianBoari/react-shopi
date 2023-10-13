@@ -5,11 +5,20 @@ import { Card } from '../../Components/Card'
 import { ProductDetail } from '../../Components/ProductDetail'
 
 const Home = () => {
-  const { products } = useContext(ShoppingCartContext)
-  
+  const { products, searchByTitle, setSearchByTitle} = useContext(ShoppingCartContext)
+
   return (
     <Layout>
-      Home
+      <div className='flex items-center justify-center w-80 relative mb-5'>
+        <h1 className='font-medium text-xl'>Exclusive Products</h1>
+      </div>
+
+      <input 
+        type='text' 
+        placeholder='Search a product' 
+        className='rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none text-center'
+        onChange={(event) => setSearchByTitle(event.target.value)}
+      />
 
       <div className='grid gap-4 grid-cols-4 w-full max-w-screen-lg'>
       {
