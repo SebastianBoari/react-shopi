@@ -5,7 +5,14 @@ const ShoppingCartContext = createContext()
 const ShoppingCartProvider = ({ children }) => {
   // Products: get products
   const [products, setProducts] = useState([])
-  
+
+  // Products: Get products by title
+  const [searchByTitle, setSearchByTitle] = useState('')
+
+    // Products: filter products by title
+    const [filteredProducts, setFilteredProducts]  = useState([])
+
+  // Products: fetch
   useEffect(() => {
     const data = async () => {
       try{
@@ -22,6 +29,16 @@ const ShoppingCartProvider = ({ children }) => {
     }
     data()
   }, [])
+
+  const filteredProductsByTitle = (products, searchByTitle) => {
+    return products?.filter(product => product.title.toLowerCase().includes(searchByTitle.toLowerCase()))
+  }
+
+  useEffect(() => {
+    if(searchByTitle){
+      setFilteredProducts(filteredProductsByTitle(products, searchByTitle))
+    }
+  }, [products, searchByTitle])
 
   // Shopping cart: count
   const [count, setCount] = useState(0)
@@ -45,8 +62,6 @@ const ShoppingCartProvider = ({ children }) => {
   // Product Detail: Show product
   const [productToShow, setProductToShow] = useState({})
 
-  // Get produicts by title
-  const [searchByTitle, setSearchByTitle] = useState('')
   return (
     <ShoppingCartContext.Provider value={{
       count,
@@ -73,7 +88,9 @@ const ShoppingCartProvider = ({ children }) => {
       setProducts,
       
       searchByTitle,
-      setSearchByTitle
+      setSearchByTitle,
+
+      filteredProducts
     }}>
         {children}
     </ShoppingCartContext.Provider>
