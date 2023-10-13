@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+import { ChevronLeftIcon } from '@heroicons/react/24/solid'
 import { useContext } from 'react'
 import { ShoppingCartContext } from '../../Context'
 import { Layout } from '../../Components/Layout'
@@ -11,7 +13,12 @@ const MyOrder = () => {
 
   return (
     <Layout>
-      MyOrder
+      <div className='flex items-center justify-center w-80 relative mb-6'>
+        <Link to='/my-orders' className='absolute left-0'>
+          <ChevronLeftIcon className='h-6 w-6 text-black cursor-pointer'></ChevronLeftIcon>
+        </Link>
+        <h1>My Order</h1>
+      </div>
 
       <div className='flex flex-col w-80'>
         {

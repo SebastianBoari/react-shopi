@@ -1,6 +1,6 @@
 import { XMarkIcon } from '@heroicons/react/24/solid'
 
-const OrderCard = ({ props }) => {
+const OrderCard = (props) => {
   
   const { id, title, imageUrl, price, handleDelete } = props
 
