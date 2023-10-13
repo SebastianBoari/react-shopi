@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { ShoppingCartContext } from '../../Context'
 import { Layout } from '../../Components/Layout'
 import { OrderCard } from '../../Components/OrderCard'
@@ -7,7 +7,6 @@ const MyOrder = () => {
 
   const { 
     order,
-    setOrder
   } = useContext(ShoppingCartContext)
 
   return (

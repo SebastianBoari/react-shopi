@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import { createContext, useState } from 'react'
 
 const ShoppingCartContext = createContext()
 
@@ -24,7 +24,6 @@ const ShoppingCartProvider = ({ children }) => {
 
   // Product Detail: Show product
   const [productToShow, setProductToShow] = useState({})
-
 
   return (
     <ShoppingCartContext.Provider value={{
