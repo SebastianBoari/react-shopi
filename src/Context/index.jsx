@@ -4,13 +4,14 @@ const ShoppingCartContext = createContext()
 
 const ShoppingCartProvider = ({ children }) => {
   // Products: get products
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState(null)
+  const [filteredProducts, setFilteredProducts]  = useState(null)
 
   // Products: Get products by title
-  const [searchByTitle, setSearchByTitle] = useState('')
+  const [searchByTitle, setSearchByTitle] = useState(null)
 
-    // Products: filter products by title
-    const [filteredProducts, setFilteredProducts]  = useState([])
+  // Products: Get products by category
+  const [ searchByCategory, setSearchByCategory] = useState(null)
 
   // Products: fetch
   useEffect(() => {
@@ -34,15 +35,50 @@ const ShoppingCartProvider = ({ children }) => {
     return products?.filter(product => product.title.toLowerCase().includes(searchByTitle.toLowerCase()))
   }
 
-  useEffect(() => {
-    if(searchByTitle){
-      setFilteredProducts(filteredProductsByTitle(products, searchByTitle))
+  const filteredProductsByCategory = (products, searchByCategory) => {
+    return products?.filter(product => {
+      return product.category.name.toLowerCase().includes(searchByCategory.toLowerCase())
+    })
+  }
+
+  const filterBy = (searchType, products, searchByTitle, searchByCategory) => {
+    if(!searchType){
+      return products
     }
-  }, [products, searchByTitle])
+    
+    if(searchType === 'BY_TITLE_AND_CATEGORY'){
+      return filteredProductsByCategory(products, searchByCategory).filter(product => product.title.toLowerCase().includes(searchByTitle.toLowerCase()))
+    }
 
-  // Shopping cart: count
-  const [count, setCount] = useState(0)
+    if(searchType === 'BY_TITLE'){
+      return filteredProductsByTitle(products, searchByTitle)
+    }
 
+    if(searchType === 'BY_CATEGORY'){
+      return filteredProductsByCategory(products, searchByCategory)
+    }
+  }
+
+  useEffect(() => {
+    if(searchByTitle && searchByCategory){
+      setFilteredProducts(filterBy('BY_TITLE_AND_CATEGORY', products, searchByTitle, searchByCategory))
+    }
+
+    if(searchByTitle && !searchByCategory){
+      setFilteredProducts(filterBy('BY_TITLE', products, searchByTitle, searchByCategory))
+    }
+
+    if(!searchByTitle && searchByCategory){
+      setFilteredProducts(filterBy('BY_CATEGORY', products, searchByTitle, searchByCategory))
+    }
+
+    if(!searchByTitle && !searchByCategory){
+      setFilteredProducts(filterBy(null, products, searchByTitle, searchByCategory))
+    }
+
+  }, [products, searchByTitle, searchByCategory])
+
+  
   // Shopping cart: Add products to cart
   const [cartProducts, setCartProducts] = useState([])
 
@@ -63,10 +99,7 @@ const ShoppingCartProvider = ({ children }) => {
   const [productToShow, setProductToShow] = useState({})
 
   return (
-    <ShoppingCartContext.Provider value={{
-      count,
-      setCount,
-      
+    <ShoppingCartContext.Provider value={{      
       cartProducts,
       setCartProducts,
 
@@ -90,7 +123,10 @@ const ShoppingCartProvider = ({ children }) => {
       searchByTitle,
       setSearchByTitle,
 
-      filteredProducts
+      filteredProducts,
+
+      searchByCategory,
+      setSearchByCategory,
     }}>
         {children}
     </ShoppingCartContext.Provider>

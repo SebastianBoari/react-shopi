@@ -27,7 +27,7 @@ const MyOrders = () => {
           </Link>
         ))
       }
-      <OrdersCard/>
+
     </Layout>
   )
 }

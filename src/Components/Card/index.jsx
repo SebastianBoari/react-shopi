@@ -4,9 +4,6 @@ import { ShoppingCartContext } from '../../Context'
 
 const Card = (data) => {
   const { 
-    count,
-    setCount, 
-    
     openProductDetail,
     closeProductDetail, 
     setProductToShow, 
@@ -25,7 +22,6 @@ const Card = (data) => {
   const addProductsToCart = (event, productData) => {
     event.stopPropagation()
     closeProductDetail()
-    setCount(count + 1)
     setCartProducts([...cartProducts, productData])
     openCheckoutSideMenu()
   }

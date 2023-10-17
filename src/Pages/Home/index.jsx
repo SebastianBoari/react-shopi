@@ -1,36 +1,41 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { ShoppingCartContext } from '../../Context'
 import { Layout } from '../../Components/Layout'
 import { Card } from '../../Components/Card'
 import { ProductDetail } from '../../Components/ProductDetail'
 
 const Home = () => {
-  const { products, searchByTitle, setSearchByTitle, filteredProducts} = useContext(ShoppingCartContext)
+  const { 
+    searchByTitle,
+    setSearchByTitle, 
+    filteredProducts,
+    setSearchByCategory
+  } = useContext(ShoppingCartContext)
 
   const renderProducts = () => {
-    if (searchByTitle?.length > 0) {
-
-      if(filteredProducts?.length > 0){
-        return ( filteredProducts?.map((product) => (
-          <Card 
-            key={product.id}
-            data={product}
-          />
-        )))
-      } else {
-        return (
-          <div>Product not found</div>
-        )
-      }
-    } else {
-      return ( products.map((product) => (
+    if (filteredProducts?.length > 0) {
+      return filteredProducts.map(item => (
         <Card 
-          key={product.id}
-          data={product}
+          key={item.id} 
+          data={item} 
         />
-      )))
+      ))
+
+    } else {
+      return <p>No Results Found</p>;
     }
-  }
+  };
+
+  const { category } = useParams()
+
+  useEffect(() => {
+    if (category?.length > 0) {
+      setSearchByCategory(category.toLowerCase())
+    } else {
+      setSearchByCategory(null)
+    }
+  }, [category, setSearchByCategory])
 
   return (
     <Layout>

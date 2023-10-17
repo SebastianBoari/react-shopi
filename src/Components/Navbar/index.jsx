@@ -4,7 +4,9 @@ import { ShoppingCartContext } from '../../Context'
 import { NavLink } from 'react-router-dom'
 
 const Navbar = () => {
-    const { count } = useContext(ShoppingCartContext)
+    const { 
+        cartProducts
+     } = useContext(ShoppingCartContext)
 
     const activeStyle = 'underline underline-offset-4'
   return (
@@ -48,7 +50,7 @@ const Navbar = () => {
 
             <li>
                 <NavLink 
-                to='/furnitures'
+                to='/furniture'
                 className={({ isActive }) => 
                     isActive ? activeStyle : undefined
                 }>
@@ -58,11 +60,11 @@ const Navbar = () => {
             
             <li>
                 <NavLink 
-                to='/toys'
+                to='/shoes'
                 className={({ isActive }) => 
                     isActive ? activeStyle : undefined
                 }>
-                Toys
+                Shoes
                 </NavLink>
             </li> 
 
@@ -115,7 +117,7 @@ const Navbar = () => {
             <li className='flex'>
                 <ShoppingBagIcon className='h-6 w-6 text-black'>
                 </ShoppingBagIcon> 
-                { count }
+                { cartProducts.length }
             </li> 
         </ul>
     </nav>
